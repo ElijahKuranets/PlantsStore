@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using PlantStore.WebUI.Infrastructure;
 
 namespace PlantStore.WebUI
 {
@@ -13,6 +14,7 @@ namespace PlantStore.WebUI
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            ControllerBuilder.Current.SetControllerFactory(new NinjectDependencyResolver());    
         }
     }
 }

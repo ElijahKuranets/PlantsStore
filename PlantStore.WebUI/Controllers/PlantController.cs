@@ -11,13 +11,17 @@ namespace PlantStore.WebUI.Controllers
     {
 
         private IPlantRepository repository;
-    
+
+        public PlantController()
+        {
+
+        }
         public PlantController(IPlantRepository repo)
         {
             repository = repo;
         }
 
-        public ViewResult List()
+        public ActionResult List()
         {
             return View(repository.Plants);
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Web.Mvc;
+using System.Web.Routing;
 using Moq;
 using Ninject;
 using PlantStore.Domain;
@@ -10,24 +11,32 @@ using PlantStore.Domain.Entities;
 
 namespace PlantStore.WebUI.Infrastructure
 {
-    public class NinjectDependencyResolver : IDependencyResolver
+    public class NinjectDependencyResolver : DefaultControllerFactory
     {
         private IKernel kernel;
 
-        public NinjectDependencyResolver(IKernel kernelParam)
+        public NinjectDependencyResolver()
         {
-            kernel = kernelParam;
+            kernel = new StandardKernel();
             AddBindings();
         }
 
-        public object GetService(Type serviceType)
-        {
-            return kernel.TryGet(serviceType);
-        }
+        //public object GetService(Type serviceType)
+        //{
+        //    return kernel.TryGet(serviceType);
+        //}
 
-        public IEnumerable<object> GetServices(Type serviceType)
+        //public IEnumerable<object> GetServices(Type serviceType)
+        //{
+        //    return kernel.GetAll(serviceType);
+        //}
+
+        protected override IController GetControllerInstance(RequestContext reqCont, Type contType)
+
         {
-            return kernel.GetAll(serviceType);
+            return contType == null
+                ? null
+                : (IController)kernel.Get(contType);
         }
 
         private void AddBindings()
