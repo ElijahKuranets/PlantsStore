@@ -16,7 +16,7 @@ namespace PlantStore.WebUI
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Plant", action = "List", id = UrlParameter.Optional }
             );
         }
     }
