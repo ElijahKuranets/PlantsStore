@@ -21,16 +21,6 @@ namespace PlantStore.WebUI.Infrastructure
             AddBindings();
         }
 
-        //public object GetService(Type serviceType)
-        //{
-        //    return kernel.TryGet(serviceType);
-        //}
-
-        //public IEnumerable<object> GetServices(Type serviceType)
-        //{
-        //    return kernel.GetAll(serviceType);
-        //}
-
         protected override IController GetControllerInstance(RequestContext reqCont, Type contType)
 
         {
@@ -45,9 +35,9 @@ namespace PlantStore.WebUI.Infrastructure
             Mock<IPlantRepository> mock = new Mock<IPlantRepository>();
             mock.Setup(m => m.Plants).Returns(new List<Plant>
     {
-        new Plant { Name = "SimCity", Price = 1499 },
-        new Plant { Name = "TITANFALL", Price=2299 },
-        new Plant { Name = "Battlefield 4", Price=899.4M }
+        new Plant { Name = "Smaragd", Price = 1499 },
+        new Plant { Name = "Pinus", Price=2299 },
+        new Plant { Name = "Conica", Price=899.4M }
     });
             kernel.Bind<IPlantRepository>().ToConstant(mock.Object);
         }
