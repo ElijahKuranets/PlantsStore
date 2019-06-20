@@ -7,39 +7,33 @@ using Moq;
 using Ninject;
 using PlantStore.Domain;
 using PlantStore.Domain.Abstract;
+using PlantStore.Domain.Concrete;
 using PlantStore.Domain.Entities;
 
 namespace PlantStore.WebUI.Infrastructure
 {
-    public class NinjectDependencyResolver : DefaultControllerFactory
+    public class NinjectDependencyResolver : IDependencyResolver
     {
         private IKernel kernel;
 
-        public NinjectDependencyResolver()
+        public NinjectDependencyResolver(IKernel kernelParam)
         {
-            kernel = new StandardKernel();
+            kernel = kernelParam;
             AddBindings();
         }
 
-        protected override IController GetControllerInstance(RequestContext reqCont, Type contType)
-
+        public object GetService(Type serviceType)
         {
-            return contType == null
-                ? null
-                : (IController)kernel.Get(contType);
+            return kernel.TryGet(serviceType);
+        }
+        public IEnumerable<object> GetServices(Type serviceType)
+        {
+            return kernel.GetAll(serviceType);
         }
 
         private void AddBindings()
         {
-            // Здесь размещаются привязки
-            Mock<IPlantRepository> mock = new Mock<IPlantRepository>();
-            mock.Setup(m => m.Plants).Returns(new List<Plant>
-    {
-        new Plant { Name = "Smaragd", Price = 1499 },
-        new Plant { Name = "Pinus", Price=2299 },
-        new Plant { Name = "Conica", Price=899.4M }
-    });
-            kernel.Bind<IPlantRepository>().ToConstant(mock.Object);
+            kernel.Bind<IPlantRepository>().To<EFPlantRepository>();
         }
     }
 }
