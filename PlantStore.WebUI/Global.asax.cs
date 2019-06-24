@@ -15,6 +15,7 @@ namespace PlantStore.WebUI
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            NinjectWebCommon.Start();
         }
     }
 }
