@@ -11,6 +11,7 @@ namespace PlantStore.WebUI.Controllers
     {
 
         private IPlantRepository repository;
+        public int pageSize = 4;
 
         public PlantController()
         {
@@ -21,9 +22,17 @@ namespace PlantStore.WebUI.Controllers
             repository = repo;
         }
 
-        public ActionResult List()
+        //public ActionResult List()
+        //{
+        //    return View(repository.Plants);
+        //}
+
+        public ViewResult List(int page = 1)
         {
-            return View(repository.Plants);
+            return View(repository.Plants
+                .OrderBy(plant => plant.PlantId)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize));
         }
     }
 }
