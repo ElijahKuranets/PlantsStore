@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PlantStore.Domain.Abstract;
+using PlantStore.WebUI.Models;
 
 namespace PlantStore.WebUI.Controllers
 {
@@ -29,10 +30,17 @@ namespace PlantStore.WebUI.Controllers
 
         public ViewResult List(int page = 1)
         {
-            return View(repository.Plants
-                .OrderBy(plant => plant.PlantId)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize));
+            PlantsListViewModel model = new PlantsListViewModel
+            {
+                Plants = repository.Plants.OrderBy(game => game.PlantId).Skip((page - 1) * pageSize).Take(pageSize),
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = pageSize,
+                    TotalItems = repository.Plants.Count()
+                }
+            };
+            return View(model);
         }
     }
 }
